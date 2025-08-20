@@ -3,8 +3,16 @@
     align-items: center;
     justify-content: space-between;
     min-height: 64px;
+    width: 100%;
     padding: 12px 16px;
-    background-color: black;
+    background-color: rgba(10, 25, 47, 0.35);
+    backdrop-filter: blur(6px) saturate(120%);
+    -webkit-backdrop-filter: blur(6px) saturate(120%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
 
     .div-left .brand {
         font-weight: 700;
