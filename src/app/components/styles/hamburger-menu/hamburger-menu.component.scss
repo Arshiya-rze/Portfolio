@@ -1,0 +1,63 @@
+:host {
+    display: inline-block;
+}
+
+.hamburger {
+    --box: 32px;
+    --line-w: 22px;
+    --thick: 2px;
+    --dur: 220ms;
+    --ease: cubic-bezier(0.35, 0, 0.25, 1);
+
+    position: relative;
+    width: var(--box);
+    height: var(--box);
+    border: 0;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+    outline-offset: 4px;
+    color: #111;
+}
+
+.bar {
+    position: absolute;
+    left: 50%;
+    width: var(--line-w);
+    height: var(--thick);
+    background: currentColor;
+    border-radius: 999px;
+    transform: translateX(-50%);
+    transform-origin: 50% 50%;
+    transition:
+        transform var(--dur) var(--ease),
+        top var(--dur) var(--ease),
+        opacity var(--dur) var(--ease);
+}
+
+.bar:nth-child(1) {
+    top: 9px;
+}
+
+.bar:nth-child(2) {
+    top: 15px;
+}
+
+.bar:nth-child(3) {
+    top: 21px;
+}
+
+.hamburger.open .bar:nth-child(1) {
+    top: 15px;
+    transform: translateX(-50%) rotate(45deg);
+}
+
+.hamburger.open .bar:nth-child(3) {
+    top: 15px;
+    transform: translateX(-50%) rotate(-45deg);
+}
+
+.hamburger.open .bar:nth-child(2) {
+    opacity: 0;
+    transform: translateX(-50%) scaleX(0.6);
+}

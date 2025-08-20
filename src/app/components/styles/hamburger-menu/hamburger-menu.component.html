@@ -1,1 +1,6 @@
-<p>hamburger-menu works!</p>
+<button class="hamburger" type="button" [class.open]="open" (click)="toggle()" aria-label="Toggle menu"
+    [attr.aria-pressed]="open">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+</button>
