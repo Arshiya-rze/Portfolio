@@ -1,27 +1,21 @@
-/* رنگ‌ها */
 :root {
     --bg-1: #0a192f;
     --bg-2: #102a4a;
     --dot: #9debdc;
-    /* روشن‌تر برای وضوح */
     --line: #64ffda;
 }
 
-/* ظرف ریشه */
 .about {
     position: relative;
     min-height: 100vh;
     overflow: clip;
-    /* گرادیان ثابتِ پشت صحنه (اختیاری) */
     background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
 }
 
-/* بومِ نقاشی */
 .about-canvas {
     position: absolute;
     inset: 0;
     display: block;
     z-index: 0;
-    /* اگر خواستی کمی ملایم‌تر شود مقدار را کم کن */
     filter: opacity(0.9);
 }
