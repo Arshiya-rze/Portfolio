@@ -7,12 +7,16 @@
     .banner-video {
         position: absolute;
         inset: 0;
-        /* top/right/bottom/left: 0 */
         width: 100%;
         height: 100%;
+        display: block;
         object-fit: cover;
+        object-position: center;
         z-index: 1;
+        background: #0a192f;
+        pointer-events: none;
     }
+
 
     &::before {
         content: "";

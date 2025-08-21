@@ -1,5 +1,9 @@
 <section class="section banner">
-    <video class="banner-video" autoplay muted playsinline loop preload="metadata" disablepictureinpicture>
+    <video #bgVideo class="banner-video" autoplay muted playsinline webkit-playsinline loop preload="auto"
+        poster="/assets/images/banner-poster.jpg" disablepictureinpicture>
+        <!-- WebM برای Chrome/Firefox -->
+        <source src="/assets/videos/banner-video2.webm" type="video/webm" />
+        <!-- MP4 برای Safari/Edge/… -->
         <source src="/assets/videos/banner-video2.mp4" type="video/mp4" />
         Your browser does not support HTML5 video.
     </video>
