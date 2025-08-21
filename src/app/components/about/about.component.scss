@@ -1,43 +1,27 @@
-/* رنگ‌های پایه (دلخواه) */
+/* رنگ‌ها */
 :root {
-    --bg-deep: #0a192f;
-    /* رنگ زمینه */
+    --bg-1: #0a192f;
+    --bg-2: #102a4a;
+    --dot: #9debdc;
+    /* روشن‌تر برای وضوح */
     --line: #64ffda;
-    /* رنگ خطوط اتصال */
-    --dot: #8892b0;
-    /* رنگ نقطه‌ها */
 }
 
-/* ظرف اصلی */
+/* ظرف ریشه */
 .about {
     position: relative;
     min-height: 100vh;
     overflow: clip;
-    /* جلوگیری از اسکرول اضافی */
-    background: var(--bg-deep);
-    /* اگر ویدئو/محتوا نداریم، پس‌زمینه ثابت */
+    /* گرادیان ثابتِ پشت صحنه (اختیاری) */
+    background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
+}
 
-    /* لایه گرادیانی نرم، شبیه مرجع */
-    &::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        background: linear-gradient(120deg,
-                rgba(10, 25, 47, 0.88) 0%,
-                rgba(10, 25, 47, 0.82) 40%,
-                rgba(10, 25, 47, 0.75) 100%);
-        z-index: 1;
-    }
-
-    /* بومِ نقاشی بک‌گراند */
-    .about-bg {
-        position: absolute;
-        inset: 0;
-        z-index: 0;
-        /* زیر لایهٔ گرادیان */
-        filter: opacity(.28);
-        /* کمی ملایم‌ترش کنیم */
-        display: block;
-    }
+/* بومِ نقاشی */
+.about-canvas {
+    position: absolute;
+    inset: 0;
+    display: block;
+    z-index: 0;
+    /* اگر خواستی کمی ملایم‌تر شود مقدار را کم کن */
+    filter: opacity(0.9);
 }
