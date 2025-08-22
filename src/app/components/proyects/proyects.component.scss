@@ -1,0 +1,227 @@
+.projects {
+    /* برای استقلال از روت، متغیرها را محلی گذاشتیم. اگر قبلاً سراسری داری حذف‌شان کن. */
+    --green: #64ffda;
+    --text: #a8b2d1;
+    --title: #ccd6f6;
+    --panel: #0f2038;
+    --shadow: rgba(2, 12, 27, .5);
+
+    color: var(--text);
+
+    .container {
+        max-width: 1200px;
+        margin-inline: auto;
+        padding: clamp(56px, 9vh, 96px) clamp(16px, 7vw, 96px);
+    }
+
+    /* Title */
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--title);
+        font-weight: 700;
+        font-size: clamp(18px, 2.6vw, 22px);
+
+        .n {
+            color: var(--green);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-size: clamp(14px, 2.2vw, 16px);
+            letter-spacing: .4px;
+        }
+
+        &::after {
+            content: "";
+            height: 1px;
+            flex: 1;
+            background: rgba(136, 146, 176, .25);
+            transform: translateY(2px);
+        }
+    }
+
+    .project {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin: 80px 0;
+    }
+
+    .media {
+        display: grid;
+        justify-items: center;
+        align-items: center;
+
+        .frame {
+            position: relative;
+            width: min(720px, 100%);
+            aspect-ratio: 16 / 9;
+            border-radius: 6px;
+            overflow: hidden;
+            background: #09182c;
+            box-shadow: 0 18px 40px -12px var(--shadow);
+
+            /* لهجه‌ی سبز سمت تصویر */
+            &::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                width: 6px;
+                background: var(--green);
+                opacity: .85;
+                border-radius: 6px 0 0 6px;
+            }
+        }
+    }
+
+    /* جابجایی لهجه برای پروژه‌های زوج */
+    .project.reverse .frame::after {
+        left: auto;
+        right: 0;
+    }
+
+    .slide {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        transform: scale(1.02);
+        transition: opacity .5s ease, transform .6s ease;
+    }
+
+    .slide.active {
+        opacity: 1;
+        transform: none;
+    }
+
+    .slide.placeholder {
+        background: rgba(100, 255, 218, .06);
+        border: 1px dashed rgba(100, 255, 218, .4);
+    }
+
+    .slide.placeholder::before {
+        content: "Add image";
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        color: var(--text);
+        font-size: 14px;
+        letter-spacing: .2px;
+    }
+
+    .nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1px solid rgba(100, 255, 218, .25);
+        background: rgba(10, 25, 47, .6);
+        color: var(--title);
+        cursor: pointer;
+        transition: .2s ease;
+    }
+
+    .nav:hover {
+        background: rgba(10, 25, 47, .8);
+        color: var(--green);
+    }
+
+    .nav.prev {
+        left: 8px;
+    }
+
+    .nav.next {
+        right: 8px;
+    }
+
+    .dots {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .25);
+            border: none;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            background: #fff;
+        }
+    }
+
+    .info {
+        display: grid;
+        gap: 12px;
+
+        .kicker {
+            margin: 0;
+            color: var(--green);
+            font-size: 13px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+        }
+
+        .name {
+            margin: 0;
+            color: var(--title);
+            font-size: clamp(22px, 3.5vw, 32px);
+        }
+
+        .blurb {
+            line-height: 1.6;
+            background: rgba(10, 25, 47, .92);
+            border: 1px solid rgba(100, 255, 218, .15);
+            box-shadow: 0 12px 30px -10px var(--shadow);
+            padding: 16px 18px;
+            border-radius: 8px;
+        }
+
+        .tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 18px;
+            list-style: none;
+            padding: 0;
+            margin: 6px 0 0;
+
+            li {
+                font-size: 13px;
+                font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+                color: var(--text);
+            }
+
+            .underline {
+                padding-bottom: 3px;
+                border-bottom: 1px solid rgba(100, 255, 218, .4);
+            }
+        }
+    }
+
+    /* دسکتاپ: دو ستونه و آینه‌ای شدن */
+    @media (min-width: 992px) {
+        .project {
+            grid-template-columns: 1.1fr 1fr;
+            align-items: center;
+        }
+
+        .project.reverse {
+            grid-template-columns: 1fr 1.1fr;
+
+            .media {
+                order: 2;
+            }
+
+            .info {
+                order: 1;
+            }
+        }
+    }
+}
