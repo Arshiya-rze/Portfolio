@@ -1,1 +1,33 @@
-<p>experience works!</p>
+<section class="experience section" id="jobs" aria-label="Experience">
+    <div class="container">
+        <div class="head">
+            <h3 class="section-title"><span class="n">02.</span> Experience</h3>
+
+            <nav class="tabs-strip mobile" role="tablist" aria-label="Companies">
+                <button *ngFor="let job of jobs; index as i" class="tab-btn" (click)="select(i)"
+                    [class.active]="active === i" role="tab" [attr.aria-selected]="active === i">
+                    {{ job.tab }}
+                </button>
+            </nav>
+        </div>
+
+        <div class="grid">
+            <nav class="side-tabs desktop" role="tablist" aria-label="Companies">
+                <button *ngFor="let job of jobs; index as i" class="side-btn" (click)="select(i)"
+                    [class.active]="active === i" role="tab" [attr.aria-selected]="active === i">
+                    {{ job.tab }}
+                </button>
+            </nav>
+
+            <article class="panel" *ngIf="jobs[active] as cur" role="tabpanel">
+                <h4 class="job-title">
+                    {{ cur.title }} <span class="company">| {{ cur.tab }}</span>
+                </h4>
+                <div class="job-time">{{ cur.date }}</div>
+                <ul class="bullets">
+                    <li *ngFor="let b of cur.bullets" [innerHTML]="b"></li>
+                </ul>
+            </article>
+        </div>
+    </div>
+</section>
