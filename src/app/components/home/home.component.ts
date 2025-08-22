@@ -8,7 +8,7 @@ import { ExperienceComponent } from '../experience/experience.component';
   selector: 'app-home',
   imports: [
     BannerComponent, BannerComponent, HeaderComponent,
-    AboutComponent, AboutComponent, ExperienceComponent
+    AboutComponent, AboutComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'

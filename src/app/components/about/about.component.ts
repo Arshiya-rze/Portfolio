@@ -1,12 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ExperienceComponent } from "../experience/experience.component";
 
 type Dot = { x: number; y: number; vx: number; vy: number };
 
 @Component({
   selector: 'app-about',
   imports: [
-    CommonModule
+    CommonModule,
+    ExperienceComponent, ExperienceComponent
   ],
   templateUrl: './about.component.html',
   styleUrl: './about.component.scss',
