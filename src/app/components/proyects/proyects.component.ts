@@ -16,7 +16,6 @@ interface Project {
   styleUrl: './proyects.component.scss'
 })
 export class ProyectsComponent implements OnInit, OnDestroy {
-  // ⚠️ جای عکس‌ها عمداً خالی گذاشته شده (null). بعداً فقط مسیر عکس‌ها را جایگزین کن.
   projects: Project[] = [
     {
       title: 'Vas Aviation',
@@ -84,7 +83,6 @@ export class ProyectsComponent implements OnInit, OnDestroy {
     this.paused[i] = inside;
   }
 
-  // ساده‌ترین سوایپ لمسی
   private startX = 0;
   private swipingIdx: number | null = null;
 
