@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { ExperienceComponent } from "../experience/experience.component";
 import { ProyectsComponent } from "../proyects/proyects.component";
 import { ContactComponent } from "../contact/contact.component";
@@ -8,15 +8,12 @@ type Dot = { x: number; y: number; vx: number; vy: number };
 
 @Component({
   selector: 'app-about',
-  imports: [
-    CommonModule, ExperienceComponent, ProyectsComponent,
-    ContactComponent
-  ],
+  imports: [CommonModule, ExperienceComponent, ProyectsComponent, ContactComponent],
   templateUrl: './about.component.html',
   styleUrl: './about.component.scss',
   standalone: true
 })
-export class AboutComponent implements OnDestroy, AfterViewInit {
+export class AboutComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('aboutRoot', { static: true }) aboutRoot!: ElementRef<HTMLElement>;
   @ViewChild('bgCanvas', { static: true }) bgCanvas!: ElementRef<HTMLCanvasElement>;
@@ -25,29 +22,53 @@ export class AboutComponent implements OnDestroy, AfterViewInit {
   private rafId = 0;
   private dots: Dot[] = [];
   private resizeObserver?: ResizeObserver;
+  private io?: IntersectionObserver;
 
-  /* پارامترهای قابل تنظیم (برای وضوح بالا مقدارها افزایش داده شده) */
-  private speed = 0.35;           // سرعت حرکت
-  private connectDist = 160;      // فاصلهٔ اتصال خطوط (px)
-  private density = 1 / 14000;    // چگالی (کمتر = ذرات کمتر)
-  private maxDots = 140;          // سقف ذرات
+  private readonly isMobile =
+    matchMedia('(pointer: coarse)').matches || matchMedia('(max-width: 991px)').matches;
+  private readonly prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  private intensity = this.isMobile ? 1.6 : 1.45;
+  private speed = this.isMobile ? 0.46 : 0.58;
+  private connectDist = this.isMobile ? 135 : 175;
+  private density = this.isMobile ? 1 / 8000 : 1 / 9000;
+  private maxDots = this.isMobile ? 260 : 260;
+  private maxLinksPerDot = this.isMobile ? 4 : 6;
+  private enableGlow = false;
+  private targetFPS = this.prefersReduced ? 30 : (this.isMobile ? 45 : 50);
+
+  private minDotsFloor = this.isMobile ? 130 : 80;
+
+  private frameBudget = 1000 / this.targetFPS;
+  private qualityProbeMs = 1200;
+  private probeAcc = 0;
+  private probeFrames = 0;
+  private needRespawn = false;
+  private readonly minIntensity = this.isMobile ? 1.10 : 0.75;
+  private readonly maxIntensity = this.isMobile ? 2.10 : 1.90;
+
   private parallax = { x: 0, y: 0 };
+  private inView = true;
+  private lastT: number | null = null;
+  private acc = 0;
+
+  private onMouseMove = (e: MouseEvent) => this.moveParallax(e.clientX, e.clientY);
+  private onTouchMove = (e: TouchEvent) => { if (e.touches[0]) this.moveParallax(e.touches[0].clientX, e.touches[0].clientY); };
 
   ngAfterViewInit(): void {
     const cvs = this.bgCanvas.nativeElement;
     const ctx = cvs.getContext('2d', { alpha: true })!;
     this.ctx = ctx;
 
-    /* سایزبندی با درنظرگرفتن DPI برای شفافیت */
     const fit = () => {
       const host = this.aboutRoot.nativeElement;
       const rect = host.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2); // حداکثر 2 برای پرف
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
       cvs.width = Math.max(1, Math.floor(rect.width * dpr));
       cvs.height = Math.max(1, Math.floor(rect.height * dpr));
       cvs.style.width = `${Math.floor(rect.width)}px`;
       cvs.style.height = `${Math.floor(rect.height)}px`;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // از این به بعد با px عادی نقاشی می‌کنیم
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       this.spawnDots(Math.floor(rect.width), Math.floor(rect.height));
     };
     fit();
@@ -55,78 +76,186 @@ export class AboutComponent implements OnDestroy, AfterViewInit {
     this.resizeObserver = new ResizeObserver(fit);
     this.resizeObserver.observe(this.aboutRoot.nativeElement);
 
-    /* پارالاکس ملایم با موس/تاچ (اختیاری ولی باعث دیده شدن حرکت می‌شود) */
-    const move = (x: number, y: number) => {
-      const host = this.aboutRoot.nativeElement.getBoundingClientRect();
-      this.parallax.x = ((x - (host.left + host.width / 2)) / host.width) * 8; // حداکثر 8px
-      this.parallax.y = ((y - (host.top + host.height / 2)) / host.height) * 8;
-    };
-    window.addEventListener('mousemove', (e) => move(e.clientX, e.clientY), { passive: true });
-    window.addEventListener('touchmove', (e) => {
-      if (e.touches && e.touches[0]) move(e.touches[0].clientX, e.touches[0].clientY);
-    }, { passive: true });
+    window.addEventListener('mousemove', this.onMouseMove, { passive: true });
+    window.addEventListener('touchmove', this.onTouchMove, { passive: true });
 
-    this.loop();
+    this.io = new IntersectionObserver(([e]) => (this.inView = e.isIntersecting), { threshold: 0.05 });
+    this.io.observe(this.aboutRoot.nativeElement);
+
+    this.rafId = requestAnimationFrame(this.loop);
   }
 
   ngOnDestroy(): void {
     cancelAnimationFrame(this.rafId);
     this.resizeObserver?.disconnect();
+    this.io?.disconnect();
+    window.removeEventListener('mousemove', this.onMouseMove);
+    window.removeEventListener('touchmove', this.onTouchMove);
   }
 
-  /* تولید ذرات */
+  private moveParallax(x: number, y: number) {
+    const host = this.aboutRoot.nativeElement.getBoundingClientRect();
+    this.parallax.x = ((x - (host.left + host.width / 2)) / host.width) * 8;
+    this.parallax.y = ((y - (host.top + host.height / 2)) / host.height) * 8;
+  }
+
   private spawnDots(w: number, h: number) {
-    const count = Math.min(this.maxDots, Math.max(40, Math.floor(w * h * this.density)));
+    const base = w * h * this.density * this.intensity;
+    const target = Math.max(this.minDotsFloor, Math.floor(base));
+    const count = Math.min(this.maxDots, target);
+
+    if (this.dots.length) {
+      if (count > this.dots.length) {
+        for (let i = this.dots.length; i < count; i++) {
+          this.dots.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            vx: (Math.random() - 0.5) * this.speed,
+            vy: (Math.random() - 0.5) * this.speed,
+          });
+        }
+      } else if (count < this.dots.length) {
+        this.dots.splice(count);
+      }
+      return;
+    }
+
     this.dots = Array.from({ length: count }, () => ({
       x: Math.random() * w,
       y: Math.random() * h,
       vx: (Math.random() - 0.5) * this.speed,
-      vy: (Math.random() - 0.5) * this.speed
+      vy: (Math.random() - 0.5) * this.speed,
     }));
   }
 
-  /* حلقهٔ انیمیشن */
-  private loop = () => {
+  private loop = (t: number) => {
     this.rafId = requestAnimationFrame(this.loop);
-    const ctx = this.ctx;
-    const cvs = this.bgCanvas.nativeElement;
-    const w = cvs.width / (ctx.getTransform().a || 1); // چون setTransform زده‌ایم
-    const h = cvs.height / (ctx.getTransform().d || 1);
 
+    if (!this.inView) {
+      const tr = this.ctx.getTransform();
+      const w = this.bgCanvas.nativeElement.width / (tr.a || 1);
+      const h = this.bgCanvas.nativeElement.height / (tr.d || 1);
+      this.ctx.clearRect(0, 0, w, h);
+      return;
+    }
+
+    const dt = this.lastT ? (t - this.lastT) : 16;
+    this.lastT = t;
+    this.acc += dt;
+    if (this.acc < this.frameBudget) return;
+    const step = this.acc;
+    this.acc = 0;
+
+    this.probeAcc += dt;
+    this.probeFrames++;
+
+    const ctx = this.ctx;
+    const tr = ctx.getTransform();
+    const w = this.bgCanvas.nativeElement.width / (tr.a || 1);
+    const h = this.bgCanvas.nativeElement.height / (tr.d || 1);
     ctx.clearRect(0, 0, w, h);
 
-    // حرکت نقاط + برخورد با لبه‌ها
-    for (const p of this.dots) {
-      p.x += p.vx; p.y += p.vy;
+    const wobbleX = 0.15, wobbleY = 0.15;
+    for (let i = 0; i < this.dots.length; i++) {
+      const p = this.dots[i];
+      p.x += p.vx * (step / 16) + wobbleX * Math.sin(0.0013 * t + i * 0.7);
+      p.y += p.vy * (step / 16) + wobbleY * Math.cos(0.0010 * t + i * 0.7);
       if (p.x < 0 || p.x > w) p.vx *= -1;
       if (p.y < 0 || p.y > h) p.vy *= -1;
     }
 
-    // خطوط بین نقاط نزدیک
-    const maxD2 = this.connectDist * this.connectDist;
-    ctx.lineWidth = 1.2;
+    const cell = this.connectDist;
+    const cols = Math.ceil(w / cell), rows = Math.ceil(h / cell);
+    const buckets: number[][] = Array.from({ length: cols * rows }, () => []);
     for (let i = 0; i < this.dots.length; i++) {
-      for (let j = i + 1; j < this.dots.length; j++) {
-        const a = this.dots[i], b = this.dots[j];
-        const dx = a.x - b.x, dy = a.y - b.y;
-        const d2 = dx * dx + dy * dy;
-        if (d2 < maxD2) {
-          const alpha = 0.35 * (1 - Math.sqrt(d2) / this.connectDist); // پررنگ‌تر از قبل
-          ctx.strokeStyle = `rgba(100,255,218,${alpha})`;
-          ctx.beginPath();
-          ctx.moveTo(a.x + this.parallax.x, a.y + this.parallax.y);
-          ctx.lineTo(b.x + this.parallax.x, b.y + this.parallax.y);
-          ctx.stroke();
+      const p = this.dots[i];
+      const cx = Math.max(0, Math.min(cols - 1, (p.x / cell) | 0));
+      const cy = Math.max(0, Math.min(rows - 1, (p.y / cell) | 0));
+      buckets[cy * cols + cx].push(i);
+    }
+
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.shadowBlur = 0;
+    ctx.lineWidth = this.isMobile ? 0.9 : 1.0;
+    const maxD2 = this.connectDist * this.connectDist;
+
+    for (let cy = 0; cy < rows; cy++) {
+      for (let cx = 0; cx < cols; cx++) {
+        const base = cy * cols + cx;
+        const here = buckets[base];
+        if (!here.length) continue;
+
+        const near: number[] = [];
+        const pushCell = (ix: number, iy: number) => {
+          if (ix >= 0 && iy >= 0 && ix < cols && iy < rows) {
+            const arr = buckets[iy * cols + ix];
+            for (let k = 0; k < arr.length; k++) near.push(arr[k]);
+          }
+        };
+        pushCell(cx, cy);
+        pushCell(cx + 1, cy); pushCell(cx - 1, cy);
+        pushCell(cx, cy + 1); pushCell(cx, cy - 1);
+        pushCell(cx + 1, cy + 1); pushCell(cx + 1, cy - 1);
+        pushCell(cx - 1, cy + 1); pushCell(cx - 1, cy - 1);
+
+        for (let aIdx = 0; aIdx < here.length; aIdx++) {
+          const i = here[aIdx];
+          const a = this.dots[i];
+          let links = 0;
+
+          for (let k = 0; k < near.length && links < this.maxLinksPerDot; k++) {
+            const j = near[k];
+            if (j <= i) continue;
+            const b = this.dots[j];
+
+            const dx = a.x - b.x, dy = a.y - b.y;
+            const d2 = dx * dx + dy * dy;
+            if (d2 < maxD2) {
+              const alpha = 0.38 * (1 - Math.sqrt(d2) / this.connectDist);
+              ctx.strokeStyle = `rgba(100,255,218,${alpha})`;
+              ctx.beginPath();
+              ctx.moveTo(a.x + this.parallax.x, a.y + this.parallax.y);
+              ctx.lineTo(b.x + this.parallax.x, b.y + this.parallax.y);
+              ctx.stroke();
+              links++;
+            }
+          }
         }
       }
     }
 
-    // خودِ نقاط (درشت‌تر و روشن‌تر)
-    ctx.fillStyle = 'rgba(157,235,220,0.9)';
-    for (const p of this.dots) {
+    ctx.fillStyle = 'rgba(157,235,220,0.92)';
+    for (let i = 0; i < this.dots.length; i++) {
+      const p = this.dots[i];
+      const r = 1.7 + 0.45 * Math.sin(0.002 * t + i * 1.3);
       ctx.beginPath();
-      ctx.arc(p.x + this.parallax.x, p.y + this.parallax.y, 2.0, 0, Math.PI * 2);
+      ctx.arc(p.x + this.parallax.x, p.y + this.parallax.y, r, 0, Math.PI * 2);
       ctx.fill();
+    }
+
+    if (this.probeAcc >= this.qualityProbeMs) {
+      const avgFrame = this.probeAcc / Math.max(1, this.probeFrames);
+      const downThresh = this.isMobile ? 1.40 : 1.25;
+      const upThresh = this.isMobile ? 0.70 : 0.75;
+
+      if (avgFrame > this.frameBudget * downThresh && this.intensity > this.minIntensity) {
+        this.intensity = Math.max(this.minIntensity, this.intensity * 0.88);
+        this.needRespawn = true;
+      } else if (avgFrame < this.frameBudget * upThresh && this.intensity < this.maxIntensity) {
+        this.intensity = Math.min(this.maxIntensity, this.intensity * 1.10);
+        this.needRespawn = true;
+      }
+
+      this.probeAcc = 0;
+      this.probeFrames = 0;
+
+      if (this.needRespawn) {
+        this.needRespawn = false;
+        const trNow = this.ctx.getTransform();
+        const ww = this.bgCanvas.nativeElement.width / (trNow.a || 1);
+        const hh = this.bgCanvas.nativeElement.height / (trNow.d || 1);
+        this.spawnDots(ww, hh);
+      }
     }
   };
 }
