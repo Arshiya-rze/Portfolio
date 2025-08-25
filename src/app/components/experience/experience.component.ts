@@ -18,51 +18,39 @@ type Job = {
 export class ExperienceComponent {
   jobs: Job[] = [
     {
-      tab: 'Global',
-      title: 'Fullstack Developer',
-      date: 'May 2023',
+      tab: 'DirectDay',
+      title: 'Full-Stack Developer',
+      date: 'Mar 2025 — Present',
       bullets: [
-        'Leader in technical decision making',
-        'Hiring technical talent for the company',
-        'Team leader of the technology department',
-        'Creation and maintenance of an internal process management platform for course sales',
-        'Programming custom functions and plugins for customizing a WordPress platform',
-        'Implementation of continuous integration and daily backups.',
-        'Planning and reporting meetings.'
+        'Shipping full-stack features with <strong>Next.js</strong> & <strong>C#/.NET</strong> in production.',
+        'API design, database modeling, integration, and performance tuning across the stack.',
+        'Delivering live products used by real users.',
+        // ▼ Replace the two URLs with your real links:
+        `Live projects: <a href="https://tehranpage.com/" target="_blank" rel="noopener">Tehran Page</a> & <a href="https://new.citymenu.app/" target="_blank" rel="noopener">CityMenu</a>.`
       ]
     },
     {
-      tab: 'Proyex', title: 'Frontend Developer', date: '2022 — 2023',
+      tab: 'Oyek',
+      title: 'Front-End Developer',
+      date: 'Sep 2022 — Apr 2023',
       bullets: [
-        'Built reusable Angular components and design system tokens.',
-        'Improved Core Web Vitals and page performance.',
-        'Collaborated with backend for API contracts & DX.'
+        'Developed UI with <strong>React</strong> + <strong>Vite</strong> using a component-driven approach.',
+        'Improved UX/performance, refactored views, and collaborated closely with design & backend.',
+        'Focused on clean code, reusability, and accessibility.'
       ]
     },
     {
-      tab: 'Freelancer', title: 'Frontend / Fullstack', date: '2020 — 2022',
+      tab: 'Projects',
+      title: 'Personal & Portfolio Projects',
+      date: 'Ongoing',
       bullets: [
-        'Delivered pixel-perfect SPAs with Angular.',
-        'Set up CI/CD, containerized apps, and monitoring.',
-        'SEO & accessibility improvements.'
+        `<strong>Programming School</strong> — Course management platform for admins/teachers/students, attendance & profiles. <em>Tech:</em> C#, Angular, SASS, Angular Material, TypeScript.`,
+        `<strong>OnlineShop</strong> — Demo e-commerce: admin product CRUD, custom image resizing tool, product filtering/search. <em>Tech:</em> C#, Angular, SASS, Angular Material, TypeScript.`,
+        `<strong>Hallboard</strong> — People discovery/dating-style app: users enter personal details and can be found by others. <em>Tech:</em> C#, Angular, SASS, Angular Material, TypeScript.`,
+        `<strong>SoundWave</strong> — Music portfolio site: upload, search, and listen to tracks. <em>Tech:</em> C#, Angular, SASS, Angular Material, TypeScript.`,
+        `<strong>Tehran Page</strong> — Currency marketplace: admin manages currencies/prices; users can browse, filter, buy; custom exchanges with their own prices. <em>Tech:</em> C#, React, Tailwind, Next.js, TypeScript.`
       ]
-    },
-    {
-      tab: 'Moebius', title: 'Frontend Developer', date: '2019 — 2020',
-      bullets: ['UI refactors, theming, and performance profiling.', 'Introduced testing culture with Jasmine/Karma.']
-    },
-    {
-      tab: 'TechLatam', title: 'Frontend Developer', date: '2018 — 2019',
-      bullets: ['Migrated legacy jQuery views to Angular.', 'State management with RxJS.']
-    },
-    {
-      tab: 'CANTV', title: 'Frontend Developer', date: '2017 — 2018',
-      bullets: ['Internal dashboards and reporting modules.', 'Role-based access and auditing.']
-    },
-    {
-      tab: 'IEP', title: 'Frontend Developer', date: '2016 — 2017',
-      bullets: ['Landing pages and campaign microsites.', 'Optimized Lighthouse scores.']
-    },
+    }
   ];
 
   active = 0;
