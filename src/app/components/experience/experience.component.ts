@@ -25,7 +25,6 @@ export class ExperienceComponent {
         'Shipping full-stack features with <strong>Next.js</strong> & <strong>C#/.NET</strong> in production.',
         'API design, database modeling, integration, and performance tuning across the stack.',
         'Delivering live products used by real users.',
-        // ▼ Replace the two URLs with your real links:
         `Live projects: <a href="https://tehranpage.com/" target="_blank" rel="noopener">Tehran Page</a> & <a href="https://new.citymenu.app/" target="_blank" rel="noopener">CityMenu</a>.`
       ]
     },
