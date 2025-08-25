@@ -23,7 +23,7 @@ export class ProyectsComponent implements OnInit, OnDestroy {
     {
       title: 'Programming School',
       description:
-        'Application for tracking fuel supply requests for aircraft. Email module, real-time notifications, CSV import & price quotes.',
+        'A site about a programming school that adds the schools course manager and users, meaning those who have registered with this school, can view these courses.Teachers can record attendance and absence for students and view their own students.Users can also view their own and their classmates profiles.',
       tech: ['C#', 'Angular', 'SASS', 'Angular Material', 'TypeScript'],
       slides: [
         `${ASSETS}projectSchool1.png`,
@@ -34,7 +34,7 @@ export class ProyectsComponent implements OnInit, OnDestroy {
     {
       title: 'OnlineShop',
       description:
-        'Monitoring application for data query made with Angular and Laravel. Uses charts and dashboards.',
+        'An online shop site for demo for those who want to show an online shop site.On this website, the admin can add, update, or even delete products.For each product, he can also choose a photo and these photos can be resized by writing their own tool.Users can also filter and view these products.',
       tech: ['C#', 'Angular', 'SASS', 'Angular Material', 'TypeScript'],
       slides: [
         `${ASSETS}projectOnlineShop1.png`,
@@ -46,7 +46,7 @@ export class ProyectsComponent implements OnInit, OnDestroy {
     {
       title: 'Hallboard',
       description:
-        'Company management app (sales, collection, tracking). WebSockets, schedules, Laravel jobs, WP integrations.',
+        'An app for people to enter their personal details and other people on the app can find them.Its basically a dating app.',
       tech: ['C#', 'Angular', 'SASS', 'Angular Material', 'TypeScript'],
       slides: [
         `${ASSETS}projectHallboard1.png`,
@@ -56,7 +56,7 @@ export class ProyectsComponent implements OnInit, OnDestroy {
     {
       title: 'SoundWave',
       description:
-        'Water wells & tugboats monitoring platform with auth, configurable graphs/alarms, user management, OpenLayers maps.',
+        'A website for design and design portfolios where you can upload music and search for and listen to that song.',
       tech: ['C#', 'Angular', 'SASS', 'Angular Material', 'TypeScript'],
       slides: [
         `${ASSETS}projectSoundwave1.png`,
@@ -67,7 +67,7 @@ export class ProyectsComponent implements OnInit, OnDestroy {
     {
       title: 'Tehran Page',
       description:
-        'Water wells & tugboats monitoring platform with auth, configurable graphs/alarms, user management, OpenLayers maps.',
+        'A website for currencies where the admin can add different currencies and change the prices. Users can also view, filter and buy these currencies.Users can also add their own exchanges and trade currencies specific to their exchange with their own prices.',
       tech: ['C#', 'React', 'Tailwind', 'Next.js', 'TypeScript'],
       slides: [
         `${ASSETS}projectTehranPage1.png`,
