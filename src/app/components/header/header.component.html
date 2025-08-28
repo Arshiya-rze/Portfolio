@@ -1,14 +1,62 @@
-<nav>
-    <section id="section-header">
-        <div class="div-left">
-            <span class="brand">A</span>
-        </div>
+<nav id="section-header" #headerEl aria-label="Primary" [class.menu-open]="responsiveMenuVisible">
+    <div class="div-left">
+        <a class="brand" href="/" (click)="go($event, 'about')" aria-label="Go to top">A</a>
+    </div>
 
-        <div class="div-right">
-            <app-hamburger-menu [(open)]="responsiveMenuVisible" [color]="'#0ff'">
-                [size]="28"
-                [thickness]="2">
-            </app-hamburger-menu>
-        </div>
-    </section>
+    <!-- Desktop nav -->
+    <ul class="nav-desktop" role="menubar">
+        <li role="none">
+            <button class="link" role="menuitem" [class.active]="currentSection==='about'" (click)="go($event,'about')">
+                <span class="n">01.</span> About Me
+            </button>
+        </li>
+        <li role="none">
+            <button class="link" role="menuitem" [class.active]="currentSection==='jobs'" (click)="go($event,'jobs')">
+                <span class="n">02.</span> Experience
+            </button>
+        </li>
+        <li role="none">
+            <button class="link" role="menuitem" [class.active]="currentSection==='projects'"
+                (click)="go($event,'projects')">
+                <span class="n">03.</span> Projects
+            </button>
+        </li>
+        <li role="none">
+            <button class="link" role="menuitem" [class.active]="currentSection==='contact'"
+                (click)="go($event,'contact')">
+                <span class="n">04.</span> Contact
+            </button>
+        </li>
+        <li role="none">
+            <a class="resume-btn" role="menuitem" [href]="resumeUrl" target="_blank" rel="noopener">RESUME</a>
+        </li>
+    </ul>
+
+    <!-- Mobile hamburger -->
+    <div class="div-right">
+        <app-hamburger-menu [(open)]="responsiveMenuVisible" [color]="'#64ffda'" [size]="28"
+            [thickness]="2"></app-hamburger-menu>
+    </div>
+
+    <!-- Backdrop -->
+    <div class="backdrop" *ngIf="responsiveMenuVisible" (click)="toggle(false)"></div>
+
+    <!-- Mobile drawer (slides from right) -->
+    <aside class="drawer" *ngIf="responsiveMenuVisible" [class.open]="responsiveMenuVisible" role="dialog"
+        aria-modal="true" aria-label="Menu">
+        <button class="close" aria-label="Close menu" (click)="toggle(false)">×</button>
+
+        <ul class="drawer-links" role="menu">
+            <li><button role="menuitem" (click)="go($event,'about', true)"><span class="n">01.</span> About Me</button>
+            </li>
+            <li><button role="menuitem" (click)="go($event,'jobs', true)"><span class="n">02.</span> Experience</button>
+            </li>
+            <li><button role="menuitem" (click)="go($event,'projects', true)"><span class="n">03.</span>
+                    Projects</button></li>
+            <li><button role="menuitem" (click)="go($event,'contact', true)"><span class="n">04.</span> Contact</button>
+            </li>
+        </ul>
+
+        <a class="resume-btn full" [href]="resumeUrl" target="_blank" rel="noopener">RESUME</a>
+    </aside>
 </nav>
