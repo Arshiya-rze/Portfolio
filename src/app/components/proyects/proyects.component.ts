@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 
 type Slide = string | null;
 
@@ -14,7 +15,9 @@ const ASSETS = '/assets/images/';
 
 @Component({
   selector: 'app-proyects',
-  imports: [CommonModule],
+  imports: [
+    CommonModule, MatIconModule
+  ],
   templateUrl: './proyects.component.html',
   styleUrl: './proyects.component.scss'
 })

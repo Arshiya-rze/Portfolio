@@ -14,8 +14,13 @@
                         [class.placeholder]="!s" [style.backgroundImage]="s ? 'url(' + s + ')' : ''">
                     </div>
 
-                    <button class="nav prev" type="button" aria-label="Previous" (click)="prev(i)">‹</button>
-                    <button class="nav next" type="button" aria-label="Next" (click)="next(i)">›</button>
+                    <button class="nav prev" type="button" aria-label="Previous" (click)="prev(i)">
+                        <mat-icon>chevron_left</mat-icon>
+                    </button>
+                    <button class="nav next" type="button" aria-label="Next" (click)="next(i)">
+                        <mat-icon>chevron_right</mat-icon>
+                    </button>
+
                 </div>
 
                 <div class="dots" role="tablist" aria-label="Slides">
