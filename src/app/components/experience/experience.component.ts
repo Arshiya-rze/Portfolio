@@ -18,6 +18,20 @@ type Job = {
 export class ExperienceComponent {
   jobs: Job[] = [
     {
+      tab: 'Projects',
+      title: 'Personal & Portfolio Projects',
+      date: 'Ongoing',
+      bullets: [
+        `<strong>Programming School</strong> — Course management platform for admins/teachers/students, attendance & profiles. <em>Tech:</em> C#, Angular, SASS, Angular Material, TypeScript, Mongo DB, Dotnet.`,
+        `<strong>OnlineShop</strong> — Demo e-commerce: admin product CRUD, custom image resizing tool, product filtering/search. <em>Tech:</em> C#, Angular, SASS, Angular Material, TypeScript, Mongo DB, Dotnet.`,
+        `<strong>Hallboard</strong> — People discovery/dating-style app: users enter personal details and can be found by others. <em>Tech:</em> C#, Angular, SASS, Angular Material, TypeScript, Mongo DB, Dotnet.`,
+        `<strong>SoundWave</strong> — Music portfolio site: upload, search, and listen to tracks. <em>Tech:</em> C#, Angular, SASS, Angular Material, TypeScript, Mongo DB, Dotnet.`,
+        `<strong>Tehran Page</strong> — Currency marketplace: admin manages currencies/prices; users can browse, filter, buy; custom exchanges with their own prices. <em>Tech:</em> C#, React, Tailwind, Next.js, TypeScript, My SQL.`,
+        `<strong>City Menu</strong> — Restaurant menu management: admin manages menues; users can customise the menu and add their own. <em>Tech:</em> C#, React, Tailwind, Next.js, TypeScript, My SQL.`,
+        `<strong>Boom Deal</strong> — Find Cars: users can find the car they want. <em>Tech:</em> Angular, Angular Material, SASS, TypeScript, Mongo DB.`
+      ]
+    },
+    {
       tab: 'DirectDay',
       title: 'Full-Stack Developer',
       date: 'Mar 2025 — Present',
@@ -36,18 +50,6 @@ export class ExperienceComponent {
         'Developed UI with <strong>React</strong> + <strong>Vite</strong> using a component-driven approach.',
         'Improved UX/performance, refactored views, and collaborated closely with design & backend.',
         'Focused on clean code, reusability, and accessibility.'
-      ]
-    },
-    {
-      tab: 'Projects',
-      title: 'Personal & Portfolio Projects',
-      date: 'Ongoing',
-      bullets: [
-        `<strong>Programming School</strong> — Course management platform for admins/teachers/students, attendance & profiles. <em>Tech:</em> C#, Angular, SASS, Angular Material, TypeScript.`,
-        `<strong>OnlineShop</strong> — Demo e-commerce: admin product CRUD, custom image resizing tool, product filtering/search. <em>Tech:</em> C#, Angular, SASS, Angular Material, TypeScript.`,
-        `<strong>Hallboard</strong> — People discovery/dating-style app: users enter personal details and can be found by others. <em>Tech:</em> C#, Angular, SASS, Angular Material, TypeScript.`,
-        `<strong>SoundWave</strong> — Music portfolio site: upload, search, and listen to tracks. <em>Tech:</em> C#, Angular, SASS, Angular Material, TypeScript.`,
-        `<strong>Tehran Page</strong> — Currency marketplace: admin manages currencies/prices; users can browse, filter, buy; custom exchanges with their own prices. <em>Tech:</em> C#, React, Tailwind, Next.js, TypeScript.`
       ]
     }
   ];
