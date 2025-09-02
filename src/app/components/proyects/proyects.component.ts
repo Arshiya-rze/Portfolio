@@ -27,7 +27,7 @@ export class ProyectsComponent implements OnInit, OnDestroy {
       title: 'Programming School',
       description:
         'A site about a programming school that adds the schools course manager and users, meaning those who have registered with this school, can view these courses.Teachers can record attendance and absence for students and view their own students.Users can also view their own and their classmates profiles.',
-      tech: ['C#', 'Angular', 'SASS', 'Angular Material', 'TypeScript'],
+      tech: ['C#', 'Angular', 'SASS', 'Angular Material', 'TypeScript', 'Mongo DB', 'Dotnet'],
       slides: [
         `${ASSETS}projectSchool1.png`,
         `${ASSETS}projectSchool2.png`,
@@ -38,7 +38,7 @@ export class ProyectsComponent implements OnInit, OnDestroy {
       title: 'OnlineShop',
       description:
         'An online shop site for demo for those who want to show an online shop site.On this website, the admin can add, update, or even delete products.For each product, he can also choose a photo and these photos can be resized by writing their own tool.Users can also filter and view these products.',
-      tech: ['C#', 'Angular', 'SASS', 'Angular Material', 'TypeScript'],
+      tech: ['C#', 'Angular', 'SASS', 'Angular Material', 'TypeScript', 'Mongo DB', 'Dotnet'],
       slides: [
         `${ASSETS}projectOnlineShop1.png`,
         `${ASSETS}projectOnlineShop2.png`,
@@ -50,7 +50,7 @@ export class ProyectsComponent implements OnInit, OnDestroy {
       title: 'Hallboard',
       description:
         'An app for people to enter their personal details and other people on the app can find them.Its basically a dating app.',
-      tech: ['C#', 'Angular', 'SASS', 'Angular Material', 'TypeScript'],
+      tech: ['C#', 'Angular', 'SASS', 'Angular Material', 'TypeScript', 'Mongo DB', 'Dotnet'],
       slides: [
         `${ASSETS}projectHallboard1.png`,
         `${ASSETS}projectHallboard2.png`
@@ -60,7 +60,7 @@ export class ProyectsComponent implements OnInit, OnDestroy {
       title: 'SoundWave',
       description:
         'A website for design and design portfolios where you can upload music and search for and listen to that song.',
-      tech: ['C#', 'Angular', 'SASS', 'Angular Material', 'TypeScript'],
+      tech: ['C#', 'Angular', 'SASS', 'Angular Material', 'TypeScript', 'Mongo DB', 'Dotnet'],
       slides: [
         `${ASSETS}projectSoundwave1.png`,
         `${ASSETS}projectSoundwave2.png`,
@@ -71,7 +71,7 @@ export class ProyectsComponent implements OnInit, OnDestroy {
       title: 'Tehran Page',
       description:
         'A website for currencies where the admin can add different currencies and change the prices. Users can also view, filter and buy these currencies.Users can also add their own exchanges and trade currencies specific to their exchange with their own prices.',
-      tech: ['C#', 'React', 'Tailwind', 'Next.js', 'TypeScript'],
+      tech: ['C#', 'React', 'Tailwind', 'Next.js', 'TypeScript', 'My SQL', 'Dotnet'],
       slides: [
         `${ASSETS}projectTehranPage1.png`,
         `${ASSETS}projectTehranPage2.png`
