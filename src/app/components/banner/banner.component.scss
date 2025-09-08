@@ -145,6 +145,32 @@
     transition: opacity .3s ease;
 }
 
+/* ===== Scroll-parallax on banner ===== */
+.banner {
+    --title-y: 0px;
+    --desc-y: 0px;
+    --title-op: 1;
+    --desc-op: 1;
+    --zoom: 1;
+    --overlay: .88;
+
+    .parallax-title {
+        transform: translateY(var(--title-y));
+        opacity: var(--title-op);
+        will-change: transform, opacity;
+    }
+
+    .parallax-desc {
+        transform: translateY(var(--desc-y));
+        opacity: var(--desc-op);
+        will-change: transform, opacity;
+    }
+
+    .banner-video {
+        transform: scale(var(--zoom));
+        will-change: transform;
+    }
+}
 
 @media (prefers-reduced-motion: reduce) {
 

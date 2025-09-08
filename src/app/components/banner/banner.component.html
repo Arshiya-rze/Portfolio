@@ -1,4 +1,4 @@
-<section class="section banner">
+<section #bannerRoot class="section banner">
     <video #bgVideo class="banner-video" autoplay muted playsinline webkit-playsinline loop preload="auto"
         poster="/assets/images/banner-poster.jpg" disablepictureinpicture>
         <!-- WebM برای Chrome/Firefox -->
@@ -8,13 +8,14 @@
         Your browser does not support HTML5 video.
     </video>
 
-    <div class="top-title">
+    <div class="top-title parallax-title">
         <span class="fade-in-1">Hello! My name is</span>
         <span class="fade-in-2">Arshiya Rezaie</span>
         <span class="fade-in-3">Software Developer</span>
     </div>
 
-    <div class="center-description fade-in-4" appReveal="fade-up" [revealDelay]="150">
+    <div class="center-description fade-in-4 parallax-desc" appReveal="fade-up" [revealDelay]="200"
+        [revealOnce]="false">
         <span>
             I have <span>+5 years of experience</span> developing systems, interfaces and technological
             solutions to make the web a better place. I am dedicated to writing and refactoring clean, reusable,

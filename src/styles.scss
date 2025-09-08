@@ -26,7 +26,8 @@ body {
 /* ===== Scroll reveal base ===== */
 .reveal {
     opacity: 0;
-    transform: translateY(16px);
+    --tr: translateY(20px);
+    transform: var(--tr);
     transition:
         opacity .7s cubic-bezier(.22, .61, .36, 1),
         transform .7s cubic-bezier(.22, .61, .36, 1);
@@ -36,7 +37,7 @@ body {
 
 .reveal.is-visible {
     opacity: 1;
-    transform: none;
+    // transform: none;
 }
 
 /* Variants */
@@ -54,6 +55,14 @@ body {
 
 .reveal.zoom-in {
     transform: scale(.98);
+}
+
+.reveal.scroll-down {
+    --tr: translateY(0);
+}
+
+.reveal.scroll-up {
+    --tr: translateY(-10px);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,17 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, NgZone, OnDestroy, ViewChild } from '@angular/core';
 import { ExperienceComponent } from "../experience/experience.component";
 import { ProyectsComponent } from "../proyects/proyects.component";
 import { ContactComponent } from "../contact/contact.component";
+import { RevealOnScrollDirective } from '../../shared/directives/reveal-on-scroll.directive'; // ⬅️ چون در HTML از appReveal استفاده شده
 
 type Dot = { x: number; y: number; vx: number; vy: number };
 
 @Component({
   selector: 'app-about',
-  imports: [CommonModule, ExperienceComponent, ProyectsComponent, ContactComponent],
+  standalone: true,
+  imports: [CommonModule, ExperienceComponent, ProyectsComponent, ContactComponent, RevealOnScrollDirective],
   templateUrl: './about.component.html',
-  styleUrl: './about.component.scss',
-  standalone: true
+  styleUrl: './about.component.scss'
 })
 export class AboutComponent implements AfterViewInit, OnDestroy {
 
@@ -32,7 +33,7 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
   private speed = this.isMobile ? 0.46 : 0.58;
   private connectDist = this.isMobile ? 135 : 175;
   private density = this.isMobile ? 1 / 8000 : 1 / 9000;
-  private maxDots = this.isMobile ? 260 : 260;
+  private maxDots = 260;
   private maxLinksPerDot = this.isMobile ? 4 : 6;
   private enableGlow = false;
   private targetFPS = this.prefersReduced ? 30 : (this.isMobile ? 45 : 50);
@@ -55,7 +56,42 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
   private onMouseMove = (e: MouseEvent) => this.moveParallax(e.clientX, e.clientY);
   private onTouchMove = (e: TouchEvent) => { if (e.touches[0]) this.moveParallax(e.touches[0].clientX, e.touches[0].clientY); };
 
+  private ticking = false;
+  private onScroll?: () => void;
+  private onResize?: () => void;
+
+  constructor(private zone: NgZone) { }
+
   ngAfterViewInit(): void {
+    this.io = new IntersectionObserver(([e]) => {
+      this.inView = e.isIntersecting;
+      if (!this.inView) {
+        const host = this.aboutRoot.nativeElement;
+        host.style.setProperty('--ap-ty', '0px');
+        host.style.setProperty('--ap-r', '0deg');
+        host.style.setProperty('--ap-s', '1');
+        host.style.setProperty('--ap-br-off', '14px');
+        host.style.setProperty('--ap-sh', '0.4');
+      }
+    }, { threshold: 0.05 });
+    this.io.observe(this.aboutRoot.nativeElement);
+
+    this.zone.runOutsideAngular(() => {
+      this.onScroll = () => {
+        if (this.ticking) return;
+        this.ticking = true;
+        requestAnimationFrame(() => {
+          this.updatePhotoParallax();
+          this.ticking = false;
+        });
+      };
+      this.onResize = this.onScroll;
+
+      window.addEventListener('scroll', this.onScroll!, { passive: true });
+      window.addEventListener('resize', this.onResize!, { passive: true });
+      this.updatePhotoParallax();
+    });
+
     const cvs = this.bgCanvas.nativeElement;
     const ctx = cvs.getContext('2d', { alpha: true })!;
     this.ctx = ctx;
@@ -79,9 +115,6 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
     window.addEventListener('mousemove', this.onMouseMove, { passive: true });
     window.addEventListener('touchmove', this.onTouchMove, { passive: true });
 
-    this.io = new IntersectionObserver(([e]) => (this.inView = e.isIntersecting), { threshold: 0.05 });
-    this.io.observe(this.aboutRoot.nativeElement);
-
     this.rafId = requestAnimationFrame(this.loop);
   }
 
@@ -91,6 +124,45 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
     this.io?.disconnect();
     window.removeEventListener('mousemove', this.onMouseMove);
     window.removeEventListener('touchmove', this.onTouchMove);
+    if (this.onScroll) window.removeEventListener('scroll', this.onScroll);
+    if (this.onResize) window.removeEventListener('resize', this.onResize);
+  }
+
+  private get photoEl(): HTMLElement | null {
+    return this.aboutRoot?.nativeElement.querySelector('.parallax-photo') as HTMLElement | null;
+  }
+
+  private updatePhotoParallax(): void {
+    const host = this.aboutRoot.nativeElement;
+    const photo = this.photoEl;
+    if (!photo) return;
+
+    if (!this.inView) {
+      host.style.setProperty('--ap-ty', '0px');
+      host.style.setProperty('--ap-r', '0deg');
+      host.style.setProperty('--ap-s', '1');
+      host.style.setProperty('--ap-br-off', '14px');
+      host.style.setProperty('--ap-sh', '0.4');
+      return;
+    }
+
+    const rect = host.getBoundingClientRect();
+    const vh = window.innerHeight || 1;
+
+    const visibleProgress = 1 - Math.min(1, Math.max(0, rect.top / vh));
+    const p = Math.max(0, Math.min(1, visibleProgress));
+
+    const translateY = -(p * 36);     // px
+    const rotateDeg = (p * 3);      // deg
+    const scale = 1 + p * 0.04;
+    const borderOff = 14 + (p * 6);  // px
+    const shadowK = 0.4 + (p * 0.25);
+
+    host.style.setProperty('--ap-ty', `${translateY}px`);
+    host.style.setProperty('--ap-r', `${rotateDeg}deg`);
+    host.style.setProperty('--ap-s', `${scale}`);
+    host.style.setProperty('--ap-br-off', `${borderOff}px`);
+    host.style.setProperty('--ap-sh', `${shadowK}`);
   }
 
   private moveParallax(x: number, y: number) {

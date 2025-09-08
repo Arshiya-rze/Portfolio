@@ -200,3 +200,47 @@
 .about {
     scroll-margin-top: 80px;
 }
+
+/* ===== Scroll Parallax for About Photo ===== */
+.about {
+    --ap-ty: 0px;
+    --ap-r: 0deg;
+    --ap-s: 1;
+    --ap-br-off: 14px;
+    --ap-sh: 0.4;
+
+    .parallax-photo {
+        transform: translateY(var(--ap-ty)) rotate(var(--ap-r)) scale(var(--ap-s));
+        transition: transform .08s linear;
+        will-change: transform;
+    }
+
+    .photo .photo-frame {
+        position: relative;
+
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            transform: translate(var(--ap-br-off), var(--ap-br-off));
+            border: 2px solid #64ffda;
+            border-radius: 10px;
+            z-index: -1;
+            transition: transform .12s linear;
+            will-change: transform;
+        }
+
+        img {
+            box-shadow: 0 20px calc(50px * var(--ap-sh)) rgba(0, 0, 0, .4);
+            transition: box-shadow .12s linear, filter .12s linear;
+        }
+    }
+}
+
+@media (min-width: 992px) {
+    .photo .photo-frame {
+        width: 280px;
+        aspect-ratio: 4/6;
+        max-height: 520px;
+    }
+}

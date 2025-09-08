@@ -2,12 +2,12 @@
     <canvas #bgCanvas class="about-canvas" aria-hidden="true"></canvas>
 
     <section class="section-description">
-        <div class="div-title">
+        <div class="div-title" appReveal="fade-right" [revealOnce]="false">
             <span class="title"><span>01.</span> Abot Me</span>
         </div>
 
         <div class="media">
-            <div class="left">
+            <div class="left" appReveal="fade-up" [revealDelay]="120" [revealOnce]="false">
                 <div class="text">
                     <span>
                         In <span class="bold-color">+5 years of experience</span> I have covered many roles:
@@ -15,15 +15,12 @@
                         <span class="bold-color">Backend Developer</span>,
                         <span class="bold-color">Frontend Developer</span>,
                         and <span class="bold-color">Teaching Programming</span>. I love contributing my knowledge to
-                        create
-                        new things
-                        that help solve problems.
+                        create new things that help solve problems.
                     </span>
 
                     <span>
                         My capabilities also include implementing system improvements, optimizing sites, standardizing
-                        patterns,
-                        and suggesting and executing ideas that add value to the project I am working on.
+                        patterns, and suggesting and executing ideas that add value to the project I am working on.
                     </span>
 
                     <span>I also program things for my personal use, whether for hobby or utility.</span>
@@ -45,25 +42,21 @@
                     <li><span>Mongo DB</span></li>
                     <li><span>Dotnet</span></li>
                     <li><span>My SQL</span></li>
-                    <!-- <li><span>CleanArchitecture</span></li> -->
                 </ul>
 
                 <div class="div-title-architecture">
-                    <span>
-                        Some of the architecture I have trained and worked
-                    </span>
+                    <span>Some of the architecture I have trained and worked</span>
                 </div>
 
                 <ul class="skills-list" role="list">
-
                     <li><span>Clean Architecture</span></li>
                     <li><span>Entire</span></li>
                     <li><span>Rest API</span></li>
                 </ul>
             </div>
 
-            <div class="photo">
-                <div class="photo-frame">
+            <div class="photo" appReveal="zoom-in" [revealDelay]="220" [revealOnce]="false">
+                <div class="photo-frame parallax-photo">
                     <img src="/assets/images/aboutMePhoto.png" alt="Arshiya Rezaie" loading="lazy" />
                 </div>
             </div>
