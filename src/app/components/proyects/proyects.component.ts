@@ -77,6 +77,30 @@ export class ProyectsComponent implements OnInit, OnDestroy {
         `${ASSETS}projectTehranPage2.png`
       ],
     },
+    {
+      title: 'City Menu',
+      description:
+        'A site about restaurant menu management. Where restaurants can choose their own menu, personalize it, and display it in their restaurant.',
+      tech: ['C#', 'React', 'Tailwind', 'Next.js', 'TypeScript', 'My SQL', 'Dotnet'],
+      slides: [
+        `${ASSETS}cityMenu1.png`,
+        `${ASSETS}cityMenu2.png`,
+        `${ASSETS}cityMenu3.png`,
+        `${ASSETS}cityMenu4.png`
+      ],
+    },
+    {
+      title: 'Boom Deal',
+      description:
+        'A site that allows users to search for and buy the car they want, with a quick filter for the car they want to buy, and displays the cars from 4 websites that find them.',
+      tech: ['Angular', 'Angular Material', 'TypeScript', 'Mongo DB'],
+      slides: [
+        `${ASSETS}boomDeal1.png`,
+        `${ASSETS}boomDeal2.png`,
+        `${ASSETS}boomDeal3.png`,
+        `${ASSETS}boomDeal4.png`
+      ],
+    }
   ];
 
   activeIndex: number[] = [];
