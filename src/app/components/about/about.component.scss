@@ -146,7 +146,9 @@
 
     .photo-frame {
         position: relative;
-        width: min(520px, 92vw);
+        // width: min(520px, 92vw);
+        width: 220px;
+        aspect-ratio: 3 / 4;
         border-radius: 10px;
 
         &::after {
@@ -162,7 +164,8 @@
         img {
             display: block;
             width: 100%;
-            height: auto;
+            height: 100%;
+            object-fit: cover;
             border-radius: 10px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, .4);
             filter: saturate(.98) contrast(1.05);
@@ -184,7 +187,9 @@
     }
 
     .photo .photo-frame {
-        width: min(600px, 42vw);
+        width: 280px;
+        aspect-ratio: 4/6;
+        max-height: 520px;
     }
 
     .left .text>span {
