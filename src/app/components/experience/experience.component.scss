@@ -196,3 +196,54 @@
 .experience {
     scroll-margin-top: 80px;
 }
+
+/* ===== Scroll Animations for Experience ===== */
+.timeline {
+    position: relative;
+}
+
+.timeline::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, transparent 0%, var(--green) 20%, var(--green) 80%, transparent 100%);
+    opacity: 0.25;
+    z-index: 0;
+}
+
+.reveal-tab {
+    position: relative;
+    transform: translateX(-24px);
+    opacity: 0;
+    transition: all .6s cubic-bezier(.19, .84, .44, 1);
+}
+
+.reveal-tab.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reveal-panel {
+    transform: translateX(24px) scale(.98);
+    opacity: 0;
+    transition: all .7s cubic-bezier(.22, .61, .36, 1);
+}
+
+.reveal-panel.is-visible {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+}
+
+.reveal-bullet {
+    opacity: 0;
+    transform: translateY(12px) scale(.96);
+    transition: all .5s ease;
+}
+
+.reveal-bullet.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
