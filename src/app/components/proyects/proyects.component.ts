@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { RevealOnScrollDirective } from '../../shared/directives/reveal-on-scroll.directive';
 
 type Slide = string | null;
 
@@ -16,7 +17,7 @@ const ASSETS = '/assets/images/';
 @Component({
   selector: 'app-proyects',
   imports: [
-    CommonModule, MatIconModule
+    CommonModule, MatIconModule, RevealOnScrollDirective
   ],
   templateUrl: './proyects.component.html',
   styleUrl: './proyects.component.scss'

@@ -365,3 +365,34 @@
         }
     }
 }
+
+/* ===== Scroll Animations for Projects (variant-based) ===== */
+.proyects {
+    .reveal.tilt-in {
+        opacity: 0;
+        transform: perspective(800px) rotateY(-12deg) translateY(24px) scale(.95);
+        filter: blur(3px);
+        will-change: transform, opacity, filter;
+        transition: all .7s cubic-bezier(.22, .61, .36, 1);
+    }
+
+    .reveal.tilt-in.is-visible {
+        opacity: 1;
+        transform: perspective(800px) rotateY(0) translateY(0) scale(1);
+        filter: blur(0);
+    }
+
+    .reveal.mask-up {
+        opacity: 0;
+        transform: translateY(30px);
+        clip-path: inset(100% 0 0 0);
+        will-change: transform, opacity, clip-path;
+        transition: clip-path 1s ease, transform .7s ease, opacity .7s ease;
+    }
+
+    .reveal.mask-up.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+        clip-path: inset(0 0 0 0);
+    }
+}

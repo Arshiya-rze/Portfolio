@@ -1,6 +1,6 @@
 <section class="section proyects" id="projects">
     <div class="container">
-        <div class="head">
+        <div class="head" [appReveal]="'fade-up'" [revealDelay]="80" [revealOnce]="false">
             <h3 class="section-title">
                 <span class="n">03.</span> Projects
             </h3>
@@ -8,7 +8,8 @@
 
         <article class="project" *ngFor="let p of projects; let i = index" [class.reverse]="i % 2 === 1">
             <!-- Media (slider) -->
-            <div class="media" (mouseenter)="onMouse(i,true)" (mouseleave)="onMouse(i,false)">
+            <div class="media" [appReveal]="(i % 2 === 0) ? 'fade-right' : 'fade-left'" [revealDelay]="i * 120"
+                [revealOnce]="false" (mouseenter)="onMouse(i,true)" (mouseleave)="onMouse(i,false)">
                 <div class="frame" (pointerdown)="onPointerDown(i,$event)" (pointerup)="onPointerUp(i,$event)">
                     <div class="slide" *ngFor="let s of p.slides; let si = index" [class.active]="activeIndex[i]===si"
                         [class.placeholder]="!s" [style.backgroundImage]="s ? 'url(' + s + ')' : ''">
@@ -20,7 +21,6 @@
                     <button class="nav next" type="button" aria-label="Next" (click)="next(i)">
                         <mat-icon>chevron_right</mat-icon>
                     </button>
-
                 </div>
 
                 <div class="dots" role="tablist" aria-label="Slides">
@@ -30,16 +30,20 @@
             </div>
 
             <!-- Info -->
-            <div class="info">
+            <div class="info" [appReveal]="(i % 2 === 0) ? 'fade-left' : 'fade-right'" [revealDelay]="(i * 120) + 80"
+                [revealOnce]="false">
                 <p class="kicker">Highlighted Project</p>
                 <h3 class="name">{{ p.title }}</h3>
 
-                <div class="blurb">
+                <div class="blurb" [appReveal]="'fade-up'" [revealDelay]="(i * 120) + 140" [revealOnce]="false">
                     <p>{{ p.description }}</p>
                 </div>
 
                 <ul class="tech">
-                    <li *ngFor="let t of p.tech"><span class="underline">{{ t }}</span></li>
+                    <li *ngFor="let t of p.tech; let ti = index" [appReveal]="'zoom-in'"
+                        [revealDelay]="(i * 120) + (ti * 60) + 160" [revealOnce]="false">
+                        <span class="underline">{{ t }}</span>
+                    </li>
                 </ul>
             </div>
         </article>

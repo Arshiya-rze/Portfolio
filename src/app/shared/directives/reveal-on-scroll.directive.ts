@@ -1,6 +1,6 @@
 import { Directive, ElementRef, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 
-type RevealKind = 'fade-up' | 'fade-right' | 'fade-left' | 'zoom-in';
+type RevealKind = 'fade-up' | 'fade-right' | 'fade-left' | 'zoom-in' | 'tilt-in' | 'mask-up';
 
 @Directive({
   selector: '[appReveal]',
