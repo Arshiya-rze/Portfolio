@@ -16,15 +16,18 @@ export class ContactComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     const targets = Array.from(document.querySelectorAll<HTMLElement>('.contact .reveal'));
+
     this.io = new IntersectionObserver(
       entries => entries.forEach(e => {
         if (e.isIntersecting) {
           e.target.classList.add('in-view');
-          this.io?.unobserve(e.target);
+        } else {
+          e.target.classList.remove('in-view');
         }
       }),
       { threshold: 0.08 }
     );
+
     targets.forEach(el => this.io!.observe(el));
   }
 
